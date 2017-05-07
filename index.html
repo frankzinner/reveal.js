@@ -1,410 +1,454 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <!--<link rel="stylesheet" href="css/theme/black.css">-->
+    <link rel="stylesheet" href="css/theme/serif.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				
-				<!-- Presentation Title -->
-				<section>
-					<section data-markdown>
-						<script type="text/template">
-						## Introduction to Java 8 features
-						<h3 style="text-transform: capitalize">Functional programming using L&#955;mbdas</h3>
-						</script>
-					</section>
-				</section>
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
 
-				<!-- Agenda -->
-				<section data-markdown>
-					<script type="text/template">
-					### Agenda I
-					- Why L&#955;mbdas? History ...
-					- Advantages / Disadvantages
-					- Usecases
-					- General syntax
-					- Relevant classes, packages and references
-						- Default Methods
-						- Single Abstract Methods
-						- Method-References
-					- Updated Collections, Streams & Bulk Functions
-					- Examples / Demo
-					</script>
-				</section>
+        <!-- Presentation Title -->
+        <section data-background-image="" data-notes="">
+            <section data-markdown>
+                <script type="text/template">
+                    ## Introduction to Java 8 features
+                    <h3 style="text-transform: capitalize">Functional programming using L&#955;mbdas</h3>
+                    <aside class="notes">Introduce Lambdas ...</aside>
+                </script>
+            </section>
+        </section>
 
-				<!-- 1 Item on agenda -->
-				<section>
-					<section data-markdown>
-						<script type="text/template">
-						## Why L&#955;mbdas? History ... 
-						</script>
-					</section>
+        <!-- Agenda -->
+        <section data-markdown>
+            <script type="text/template">
+                ### Agenda I
+                - Why L&#955;mbdas? History ...
+                - Advantages / Disadvantages
+                - Usecases
+                - General syntax
+                - Relevant classes, packages and references
+                - Default Methods
+                - Single Abstract Methods
+                - Method-References
+                - Updated Collections, Streams & Bulk Functions
+                - Examples / Demo
+            </script>
+        </section>
 
-					<section data-markdown>
-						<script type="text/template">
-						Eine kleine Geschichte der Closures und Lambdas …
+        <!-- 1 Item on agenda -->
+        <section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ## Why L&#955;mbdas? History ...
+                    <aside class="notes">History</aside>
+                </script>
+            </section>
 
-						2009 hat sich die Erkenntnis durchgesetzt, dass Java ohne Closures (oder Lambdas) gegenüber anderen Programmiersprachen veraltet aussehen könnte.  Erstens gibt es Closure- bzw. Lambda-artige Sprachmittel in einer ganzen Reihe von Sprachen, die auf der JVM ablaufen.  Zweitens braucht man auf Multi-CPU- und Multi-Core-Hardware eine einfache Unterstützung für die Parallelisierung von Programmen.  Denn, was nützen die vielen Cores, wenn die Applikation sie nicht nutzt, weil sie in weiten Teilen sequentiell und nur in geringem Umfang parallel arbeitet. 
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    Eine kleine Geschichte der Closures und Lambdas …
 
-						Das JDK mit seinen Concurrency Utilities bietet im  java.util.concurrent -Package umfangreiche Unterstützung für die Parallelisierung.  Die Handhabung dieser Concurrency Utilities ist aber anspruchsvoll, erfordert Erfahrung und wird allgemein als schwierig und fehleranfällig angesehen. 
+                    2009 hat sich die Erkenntnis durchgesetzt, dass Java ohne Closures (oder Lambdas) gegenüber anderen Programmiersprachen veraltet aussehen könnte.  Erstens gibt es Closure- bzw. Lambda-artige Sprachmittel in einer ganzen Reihe von Sprachen, die auf der JVM ablaufen.  Zweitens braucht man auf Multi-CPU- und Multi-Core-Hardware eine einfache Unterstützung für die Parallelisierung von Programmen.  Denn, was nützen die vielen Cores, wenn die Applikation sie nicht nutzt, weil sie in weiten Teilen sequentiell und nur in geringem Umfang parallel arbeitet. 
 
-						Doug Lea, der sich schon seit vielen Jahren um die Spezifikation und Implementierung der Concurrency Utilities in Java kümmert, hat prototypisch eine Abstraktion ParallelArray gebaut, um zu demonstrieren, wie eine Schnittstelle für parallele Ausführung aussehen könnte.  Die Sequenz war einfach ein Array von Elementen mit Operationen, die paralleles Sortieren, paralleles Filtern, sowie das parallele Anwenden von beliebiger Funktionalität auf alle Elemente der Sequenz zur Verfügung gestellt hat.  Dabei hat sich herausgestellt, dass eine solche Abstraktion ohne Closures/Lambdas nicht gut zu benutzen ist. 
+                    Das JDK mit seinen Concurrency Utilities bietet im  java.util.concurrent -Package umfangreiche Unterstützung für die Parallelisierung.  Die Handhabung dieser Concurrency Utilities ist aber anspruchsvoll, erfordert Erfahrung und wird allgemein als schwierig und fehleranfällig angesehen. 
 
-						Deshalb gibt es seitdem bei Oracle unter der Leitung von Brian Goetz ein „Project Lambda“, d.h. eine Arbeitsgruppe, die die neuen Lambda-Sprachmittel definiert und gleichzeitig neue Abstraktionen für den JDK-Collection-Framework spezifiziert und implementiert hat. Ein ParallelArray gibt es in Java 8 zwar nicht; das war nur ein Prototyp, der Ideen geliefert hat.  Stattdessen gibt es sogenannte Streams.  Und aus dem anfänglich als Closure bezeichneten Sprachmittel sind im Laufe der Zeit Lambda-Ausdrücke sowie Methoden- und Konstruktor-Referenzen entstanden.
-						</script>
-					</section>
-				</section>
+                    Doug Lea, der sich schon seit vielen Jahren um die Spezifikation und Implementierung der Concurrency Utilities in Java kümmert, hat prototypisch eine Abstraktion ParallelArray gebaut, um zu demonstrieren, wie eine Schnittstelle für parallele Ausführung aussehen könnte.  Die Sequenz war einfach ein Array von Elementen mit Operationen, die paralleles Sortieren, paralleles Filtern, sowie das parallele Anwenden von beliebiger Funktionalität auf alle Elemente der Sequenz zur Verfügung gestellt hat.  Dabei hat sich herausgestellt, dass eine solche Abstraktion ohne Closures/Lambdas nicht gut zu benutzen ist. 
 
-				<section>
-					<section data-markdown>
-						<script type="text/template">
-						## Advantages / Disadvantages
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						### Advantages 
-						- better readability of code and 
-						- less code more compact code
-						- more focus on what and not on how to solve a problem
-						- parallel processing of Streams
-						- functional programming is **hot**
-						- anonymous classes with one method have overhead to implement
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						### Example 
-						```java
-						JButton testButton = new JButton("Test Button");
-						testButton.addActionListener(new ActionListener() {
-							@Override public void actionPerformed(ActionEvent ae) {
-								System.out.println("Click Detected by Anon Class");
-							}
-						}
-						```
-						</script>
-					</section>					
-					<section data-markdown>
-						<script type="text/template">
-						### Disadvantages
-						- unfamiliar to read at first sight
-						- can need some time to catch
-						- debugging is complex
-						- asynchronous programming style with reactive patterns unfamiliar
-						</script>
-					</section>
-				</section>
+                    Deshalb gibt es seitdem bei Oracle unter der Leitung von Brian Goetz ein „Project Lambda“, d.h. eine Arbeitsgruppe, die die neuen Lambda-Sprachmittel definiert und gleichzeitig neue Abstraktionen für den JDK-Collection-Framework spezifiziert und implementiert hat. Ein ParallelArray gibt es in Java 8 zwar nicht; das war nur ein Prototyp, der Ideen geliefert hat.  Stattdessen gibt es sogenannte Streams.  Und aus dem anfänglich als Closure bezeichneten Sprachmittel sind im Laufe der Zeit Lambda-Ausdrücke sowie Methoden- und Konstruktor-Referenzen entstanden.
+                    <aside class="notes">Speaker notes ....</aside>
+                </script>
+            </section>
+        </section>
 
-				<section>
-					<section data-markdown>
-						<script type="text/template>">
-						## Usecases
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						## Example Usecase ActionListener
+        <section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ## Advantages / Disadvantages
+                    <aside class="notes">Advantages / Disadvantages</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ### Advantages
+                    <ul>
+                        <li class="fragment">better readability of code and</li>
+                        <li class="fragment">less code more compact code</li>
+                        <li class="fragment">more focus on what and not on how to solve a problem</li>
+                        <li class="fragment">parallel processing of Streams</li>
+                        <li class="fragment">functional programming is **hot**</li>
+                        <li class="fragment">anonymous classes with one method have overhead to implement</li>
+                    </ul>
+                    <aside class="notes">Advantages</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ### Example
 
-						```java
-						JButton testButton = new JButton("Test Button");
-						testButton.addActionListener(new ActionListener() {
-							@Override public void actionPerformed(ActionEvent ae) {
-								System.out.println("Click Detected by Anon Class");
-							}
-						}
-						```
-						</script>
-					</section>
-				</section>
+                    ```java
+                    JButton testButton = new JButton("Test Button");
+                    testButton.addActionListener(new ActionListener() {
+                        @Override public void actionPerformed(ActionEvent ae) {
+                            System.out.println("Click Detected by Anon Class");
+                        }
+                    }
+                    ```
+                    <aside class="notes">Example ...</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ### Disadvantages
+                    <ul>
+                        <li class="fragment">unfamiliar to read at first sight</li>
+                        <li class="fragment">can need some time to catch</li>
+                        <li class="fragment">debugging is complex</li>
+                        <li class="fragment">asynchronous programming style with reactive patterns unfamiliar</li>
+                    </ul>
+                    <aside class="notes">Disadvantages</aside>
+                </script>
+            </section>
+        </section>
 
-				<section>
-					<section data-markdown>
-						<script type="text/template">
-						## General syntax
+        <section>
+            <section data-markdown data-notes="">
+                <script type="text/template>">
+                    ## Usecases
+                </script>
+                <aside class="notes">Use cases</aside>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ## Example Usecase ActionListener
 
-						(Parameter list) - Arrow Token (&#8594;) - Body
+                    ```java
+                    JButton testButton = new JButton("Test Button");
+                    testButton.addActionListener(new ActionListener() {
+                        @Override public void actionPerformed(ActionEvent ae) {
+                            System.out.println("Click Detected by Anon Class");
+                        }
+                    }
+                    ```
+                    <aside class="notes">ActionListener example</aside>
+                </script>
+            </section>
+        </section>
 
-						```java
-						(T t) -> 14;
-						(T t) -> { return 14; }
-						(T t, U u) -> { expre; expre; return T }
-						```
-						Lambda expressions typically include a parameter list of target types, 
-						a return type and a body. Parameter types are optional, curly braces can 
-						be used for the body and the return keyword if more than one statement 
-						is in the body.
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						### Contexts
+        <section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ## General syntax
 
-						Lambda expressions are acceptable in assignments, array initializers, 
-						cast expressions, constructor arguments, lambda bodies, method arguments, 
-						return statements ternary expressions and variable declarations.
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						### Default Methods
-						
-						Example of an ugly interface definition
+                    (Parameter list) - Arrow Token (&#8594;) - Body
 
-						```java
-						CalculatorInterface oldWorld = new CalculatorInterface() {    
-								@Override
-								public int square(int number) {
-										return number * number;
-								}
-						};
+                    ```java
+                    (T t) -> 14;
+                    (T t) -> { return 14; }
+                    (T t, U u) -> { expre; expre; return T }
+                    ```
+                    Lambda expressions typically include a parameter list of target types,
+                    a return type and a body. Parameter types are optional, curly braces can
+                    be used for the body and the return keyword if more than one statement
+                    is in the body.
+                    <aside class="notes">General syntax</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ### Contexts
 
-						// Solution with Lambda
-						CalculatorInterface lambda = number -> number * number;
-						```
-						</script>						
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							### Default Methods in interfaces
+                    Lambda expressions are acceptable in assignments, array initializers,
+                    cast expressions, constructor arguments, lambda bodies, method arguments,
+                    return statements ternary expressions and variable declarations.
+                    <aside class="notes">Contexts</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ### Default Methods
 
-							```java
-							public interface CalculatorInterface {
-								int calc(int number);
-								default int square(int number) {
-									return number * 2;
-								}
-								default int cube(int number) {
-									return number * 3;
-								}
-							}
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						#### Single Abstract Methods (SAM)
-						
-						```java
-						package java.util.function;
+                    Example of an ugly interface definition
 
-						interface Predicate<T> {
-							boolean test(T t);
-							default Predicate<T> and(Predicate<? super T> other) { 
-								// body
-							}
-							default Predicate<T> or(Predicate<? super T> other) { 
-								// body
-							}
-							static <T> Predicate<T> isEqual(Object targetRef) {
-								// body
-							}
-						}
-						```
-						```java
-						Predicate<Character> isDigit = c -> Character.isDigit(c);
-						boolean result = isDigit.test('a');
-						```
-						</script>
-					</section>					
-					<section data-markdown>
-						<script type="text/template">
-						#### SAM - Consumer
-						
-						```java
-						package java.util.function;
+                    ```java
+                    CalculatorInterface oldWorld = new CalculatorInterface() {
+                        @Override
+                        public int square(int number) {
+                            return number * number;
+                        }
+                    };
 
-						interface Consumer<T> {
-							void accept(T t);
-							default Consumer<T> andThen(Consumer<? super T> after) { 
-							  // body
-							}
-						}
-						```
-						```java
-						Consumer<String> lowerCase = (String str) -> 
-							System.out.println(str.toLowerCase());
+                    // Solution with Lambda
+                    CalculatorInterface lambda = number -> number * number;
+                    ```
+                    <aside class="notes">Default methods</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ### Default Methods in interfaces
 
-						lowerCase.accept("ConsumerExample");
-						```
-						</script>
-					</section>					
-					<section data-markdown>
-						<script type="text/template">
-						#### SAM - Supplier
-						
-						```java
-						package java.util.function;
+                    ```java
+                    public interface CalculatorInterface {
+                        int calc(int number);
+                        default int square(int number) {
+                            return number * 2;
+                        }
+                        default int cube(int number) {
+                            return number * 3;
+                        }
+                    }
+                    ```
+                    <aside class="notes">Default methods interfaces</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    #### Single Abstract Methods (SAM)
 
-						interface Supplier<T> {
-							T get();
-						}
-						```
-						```java
-						Supplier<String> supplier = () -> "supplierExample";
-						System.out.println(supplier.get());
-						```
-						</script>
-					</section>					
-					<section data-markdown>
-						<script type="text/template">
-						#### Method References to
+                    ```java
+                    package java.util.function;
 
-						- an instance method of an object of a particular type
-						- an instance method of an existing object
-						- a constructor
-						- a static method
+                    interface Predicate <T> {
+                        boolean test(T t);
+                        default Predicate <T> and(Predicate<? super T> other) {
+                            // body
+                        }
+                        default Predicate <T> or(Predicate<? super T> other) {
+                            // body
+                        }
+                        static <T> Predicate <T> isEqual(Object targetRef) {
+                            // body
+                        }
+                    }
+                    ```
 
-						```java
-						List<Integer> numbers = java.util.Arrays.asList(2,3,5,23);
-						
-						Predicate<Integer> testInt = number -> {
-							(number > 0) ? true : false;
-						};
+                    ```java
+                    Predicate <Character> isDigit = c -> Character.isDigit(c);
+                    boolean result = isDigit.test('a');
+                    ```
+                    <aside class="notes">SAM - Single abstract methods</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    #### SAM - Consumer
 
-						numbers.stream().filter(testInt::test).forEach(
-						  System.out::println
-						);
-						```
-						</script>
-					</section>					
-					<section data-markdown>
-						<script type="text/template">
-						### Collection
-						- Stream
-						- Parallel Stream
-						- Bulk Operations
+                    ```java
+                    package java.util.function;
 
-						```java
-						List<Person> persons = java.util.Arrays.asList(
-						  new Person("Jeffrey"), new Person("Walter")
-						);
-						Stream<Person> personsAsStream = persons.stream();
-						Stream<Person> personsAsParallelStream = persons
-							.parallelStream();
-						```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						#### Stream: Bulk Operations
+                    interface Consumer <T> {
+                        void accept(T t);
+                        default Consumer <T> andThen(Consumer<? super T> after) {
+                            // body
+                        }
+                    }
+                    ```
+                    ```java
+                    Consumer <String> lowerCase = (String str) ->
+                        System.out.println(str.toLowerCase());
 
-						filter / map / forEach
+                    lowerCase.accept("ConsumerExample");
+                    ```
+                    <aside class="notes">SAM consumer ...</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    #### SAM - Supplier
 
-						```java
-						List<Person> persons = java.util.Arrays.asList(
-						  new Person("Jeffrey", 17), new Person("Walter", 20)
-						);
-						// filter:
-						Stream<Person> personsOver18 = persons.stream()
-							.filter(p -> p.getAge() > 18);
-						// map:
-						Stream<Student> studentMap = personsOver18.map(
-							p -> new Student(p)
-						);
-						// forEach:
-						studentMap.forEach(p -> p.sendLetter());						
-						```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						### Collection
+                    ```java
+                    package java.util.function;
 
-						```java
-						List<Person> persons = java.util.Arrays.asList(
-							new Person("Jeffrey", 17),
-							new Person("Walter", 21)
-						);
+                    interface Supplier <T> {
+                        T get();
+                    }
+                    ```
+                    ```java
+                    Supplier <String> supplier = () -> "supplierExample";
+                    System.out.println(supplier.get());
+                    ```
 
-						persons.stream()
-						 .filter(person -> person.getAge() > 18)
-						 .map(person -> new Stunden(person))
-						 .forEach(student -> student.sendLetter());
-						```
-						</script>
-					</section>
-				</section>
+                    <aside class="notes">SAM supplier</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    #### Method References to
 
-				<section>
-					<section data-markdown>
-						<script type="text/template">
-						## Relevant classes, packages and references
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						## @FunctionalInterface
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						## Class Predicate
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						## Package java.util.functions
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-						## Method-References
-						</script>
-					</section>					
-				</section>
+                    <ul>
+                        <li class="fragment">an instance method of an object of a particular type</li>
+                        <li class="fragment">an instance method of an existing object</li>
+                        <li class="fragment">a constructor</li>
+                        <li class="fragment">a static method</li>
+                    </ul>
 
-				<section data-markdown>
-					<script type="text/template">
-							## Updated Collections, Streams & Bulk Functions
-					</script>
-				</section>
+                    ```java
+                    List <Integer> numbers = java.util.Arrays.asList(2,3,5,23);
 
-				<section data-markdown>
-					<script type="text/template">
-							## Examples / Demo
-					</script>
-				</section>
+                    Predicate <Integer> testInt = number -> {
+                        (number > 0) ? true : false;
+                    };
 
-			</div>
-		</div>
+                    numbers.stream().filter(testInt::test)
+                        .forEach(System.out::println);
+                    ```
+                    <aside class="notes">Method references</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ### Collection
+                    - Stream
+                    - Parallel Stream
+                    - Bulk Operations
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+                    ```java
+                    List <Person> persons = java.util.Arrays.asList(
+                        new Person("Jeffrey"), new Person("Walter")
+                    );
+                    Stream <Person> personsAsStream = persons.stream();
+                    Stream <Person> personsAsParallelStream = persons
+                                .parallelStream();
+                    ```
+                    <aside class="notes">Collections ...</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    #### Stream: Bulk Operations
 
-		<script>
-			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				history: true,
+                    filter / map / forEach
 
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+                    ```java
+                    List <Person> persons = java.util.Arrays.asList(
+                        new Person("Jeffrey", 17), new Person("Walter", 20)
+                    );
+                    // filter:
+                    Stream <Person> personsOver18 = persons.stream()
+                        .filter(p -> p.getAge() > 18);
+                    // map:
+                    Stream <Student> studentMap = personsOver18.map(
+                        p -> new Student(p)
+                    );
+                    // forEach:
+                    studentMap.forEach(p -> p.sendLetter());
+                    ```
+                    <aside class="notes">Stream bulk operations ....</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ### Collection
+
+                    ```java
+                    List <Person> persons = java.util.Arrays.asList(
+                        new Person("Jeffrey", 17),
+                        new Person("Walter", 21)
+                    );
+
+                    persons.stream()
+                        .filter(person -> person.getAge() > 18)
+                        .map(person -> new Stunden(person))
+                        .forEach(student -> student.sendLetter());
+                    ```
+                    <aside class="notes">Collection</aside>
+                </script>
+            </section>
+        </section>
+
+        <section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ## Relevant classes, packages and references
+                    <aside class="notes">Relevant classes, packages and references</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ## @FunctionalInterface
+                    <aside class="notes">Functional interfaces ...</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ## Class Predicate
+                    <aside class="notes">Class predicate ...</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ## Package java.util.functions
+                    <aside class="notes">Package java.util.functions</aside>
+                </script>
+            </section>
+            <section data-markdown data-notes="">
+                <script type="text/template">
+                    ## Method-References
+                    <aside class="notes">Method references</aside>
+                </script>
+            </section>
+        </section>
+
+        <section data-markdown data-notes="">
+            <script type="text/template">
+                ## Updated Collections, Streams & Bulk Functions
+                <blockquote cite="cite url">
+                    Cite ...
+                </blockquote>
+                <aside class="notes">Updated collections, streams and bulk functions ...</aside>
+            </script>
+        </section>
+
+        <section data-markdown data-notes="Notes for demo">
+            <script type="text/template">
+                ## Examples / Demo
+                <aside class="notes">Demo notes, examples</aside>
+            </script>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+    Reveal.configure({ slidenNmber: 'c/t' });
+</script>
+</body>
 </html>
